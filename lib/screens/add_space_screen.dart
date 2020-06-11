@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mapspace/providers/map_spaces.dart';
 import 'package:mapspace/widgets/image_input.dart';
+import 'package:mapspace/widgets/space_input.dart';
 import 'package:provider/provider.dart';
 
 class AddSpaceScreen extends StatefulWidget {
@@ -55,6 +56,10 @@ class _AddSpaceScreenState extends State<AddSpaceScreen> {
                       height: 10,
                     ),
                     ImageInput(_selectedImage),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SpaceInput(),
                   ],
                 ),
               ),
