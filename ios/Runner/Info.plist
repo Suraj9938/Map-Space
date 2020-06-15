@@ -30,7 +30,9 @@
 	<string>Please allow us to get your location</string>
     <key> NSLocationAlwaysUsageDescription</key>
     <string>Please allow us to get your location</string>
+    <key>io.flutter.embedded_views_preview</key>
 	<key>UIMainStoryboardFile</key>
+	<true/>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

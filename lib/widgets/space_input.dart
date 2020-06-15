@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:mapspace/helper/location_helper.dart';
+import 'package:mapspace/screens/map_screen.dart';
 
 class SpaceInput extends StatefulWidget {
   @override
@@ -7,13 +9,28 @@ class SpaceInput extends StatefulWidget {
 }
 
 class _SpaceInputState extends State<SpaceInput> {
-
   String _previousImageUrl;
+
   Future<void> _getUserLocation() async {
     final locData = await Location().getLocation();
+    final staticMapImageUrl = LocationHelper.getLocationPreviewImg(
+        latitude: locData.latitude, longitude: locData.longitude);
+    setState(() {
+      _previousImageUrl = staticMapImageUrl;
+    });
     print(locData.latitude);
     print(locData.longitude);
   }
+
+  Future<void> _selectOnMap() async
+  {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (ctx) => MapScreen(
+        isSelecting: true,
+      )
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,7 +41,16 @@ class _SpaceInputState extends State<SpaceInput> {
           alignment: Alignment.center,
           decoration:
               BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
-          child: _previousImageUrl == null ? Text("No Location Choosen", textAlign: TextAlign.center,) : Image.network(_previousImageUrl, fit: BoxFit.cover, width: double.infinity,),
+          child: _previousImageUrl == null
+              ? Text(
+                  "No Location Choosen",
+                  textAlign: TextAlign.center,
+                )
+              : Image.network(
+                  _previousImageUrl,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +62,9 @@ class _SpaceInputState extends State<SpaceInput> {
               textColor: Theme.of(context).primaryColor,
             ),
             FlatButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                _selectOnMap();
+              },
               icon: Icon(Icons.map),
               label: Text("Select on Map"),
               textColor: Theme.of(context).primaryColor,
