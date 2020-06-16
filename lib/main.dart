@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mapspace/providers/map_spaces.dart';
 import 'package:mapspace/screens/add_space_screen.dart';
+import 'package:mapspace/screens/space_detail_screen.dart';
 import 'package:mapspace/screens/space_list_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         home: SpaceListScreen(),
         routes: {
           AddSpaceScreen.routeName : (ctx) => AddSpaceScreen(),
+          SpaceDetailScreen.routeName : (ctx) => SpaceDetailScreen(),
         },
       ),
     );

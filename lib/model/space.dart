@@ -10,14 +10,14 @@ class SpaceLocation {
   const SpaceLocation({
     @required this.latitude,
     @required this.longtitude,
-    @required this.address,
+    this.address,
   });
 }
 
 class Space {
   final String id;
   final String title;
-  final location;
+  final SpaceLocation location;
   final File image;
 
   Space({

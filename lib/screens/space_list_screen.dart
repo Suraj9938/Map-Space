@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mapspace/providers/map_spaces.dart';
 import 'package:mapspace/screens/add_space_screen.dart';
+import 'package:mapspace/screens/space_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class SpaceListScreen extends StatelessWidget {
@@ -39,6 +40,13 @@ class SpaceListScreen extends StatelessWidget {
                                 FileImage(mapSpace.items[index].image),
                           ),
                           title: Text(mapSpace.items[index].title),
+                          subtitle:
+                              Text(mapSpace.items[index].location.address),
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, SpaceDetailScreen.routeName,
+                                arguments: mapSpace.items[index].id);
+                          },
                         ),
                         itemCount: mapSpace.items.length,
                       ),

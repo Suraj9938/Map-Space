@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:mapspace/helper/location_helper.dart';
+import 'package:mapspace/model/space.dart';
 import 'package:mapspace/screens/map_screen.dart';
 
 class SpaceInput extends StatefulWidget {
+  final Function onSelectSpace;
+  SpaceInput(this.onSelectSpace);
+
   @override
   _SpaceInputState createState() => _SpaceInputState();
 }
@@ -11,25 +16,38 @@ class SpaceInput extends StatefulWidget {
 class _SpaceInputState extends State<SpaceInput> {
   String _previousImageUrl;
 
-  Future<void> _getUserLocation() async {
-    final locData = await Location().getLocation();
-    final staticMapImageUrl = LocationHelper.getLocationPreviewImg(
-        latitude: locData.latitude, longitude: locData.longitude);
+  // to preview image
+  void _showPreview(double lat, double lng)
+  {
+    final staticMapImageUrl = LocationHelper.getLocationPreviewImg(latitude: lat, longitude: lng);
     setState(() {
       _previousImageUrl = staticMapImageUrl;
     });
-    print(locData.latitude);
-    print(locData.longitude);
   }
 
-  Future<void> _selectOnMap() async
-  {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (ctx) => MapScreen(
-        isSelecting: true,
-      )
-    ));
+  // user ko location
+  Future<void> _getUserLocation() async {
+    final locData = await Location().getLocation();
+    _showPreview(locData.latitude, locData.longitude);
+    widget.onSelectSpace(locData.latitude, locData.longitude);
   }
+
+  // user le map ma select gareko
+  Future<void> _selectOnMap() async {
+    final LatLng selectedLocation = await Navigator.of(context).push<LatLng>(
+      MaterialPageRoute(
+        builder: (ctx) => MapScreen(
+          isSelecting: true,
+        ),
+      ),
+    );
+    if(selectedLocation == null)
+      {
+        return;
+      }
+    _showPreview(selectedLocation.latitude, selectedLocation.longitude);
+    widget.onSelectSpace(selectedLocation.longitude, selectedLocation.longitude);
+    }
 
   @override
   Widget build(BuildContext context) {

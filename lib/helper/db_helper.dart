@@ -9,7 +9,7 @@ class DBHelper {
         //on Create is used when database is not created
         onCreate: (db, version) {
       return db.execute(
-          "CREATE TABLE user_spaces(id TEXT PRIMARY KEY, title TEXT, image TEXT)");
+          'CREATE TABLE user_spaces(id TEXT PRIMARY KEY, title TEXT, image TEXT, loc_lat REAL, loc_lng REAL, address TEXT)');
     }, version: 1);
   }
 
